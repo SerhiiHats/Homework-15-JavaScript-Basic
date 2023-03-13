@@ -22,11 +22,30 @@
         через alert
         */
 
-        function asyncOperation() {
-            setTimeout(function () {
-                let result = Math.floor(Math.random() * 5001);
-            }, 2000)
+        function asyncOperation(fulfil, reject) {
+            return new Promise(function (fulfil, reject) {
+                let startTime = new Date();
+                let timeId = setTimeout(function () {
+                    let result = Math.floor(Math.random() * 5001);
+                    if (timeId) {
+                        fulfil(`Your result is: ${result} at ${new Date() - startTime} mlsec.`);
+                    } else {
+                        reject(new Error("You have a problem with your code!"));
+                    }
+                }, 2000);
+            });
         }
+
+        let count = 1;
+
+        document.querySelector("button").addEventListener("click", () => {
+            let promise = asyncOperation();
+            promise.then(fulfil => {
+                    console.log("call " + count++ + " : " + fulfil);
+                    alert(fulfil);
+                },
+                reject => console.log(reject));
+        });
     </script>
 </body>
 
