@@ -10,6 +10,9 @@
 
 <body>
     <button>Запустить</button>
+    <div>
+
+    </div>
     <script>
         /*
         Задание:
@@ -22,11 +25,22 @@
         через alert
         */
 
-        function asyncOperation() {
+        function asyncOperation(fn) {
             setTimeout(function () {
                 let result = Math.floor(Math.random() * 5001);
-            }, 2000)
+                fn(result);
+            }, 2000);
         }
+
+        let count = 1;
+
+        document.querySelector("button").addEventListener("click", function () {
+            let startTime = new Date;
+            asyncOperation(value => {
+                console.log("call:" + count++ + " random=" + value);
+                alert(`your result is: ${value} (random) at ${new Date - startTime} msec.`);
+            });
+        });
     </script>
 </body>
 
