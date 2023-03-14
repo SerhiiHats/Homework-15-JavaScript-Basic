@@ -20,7 +20,7 @@
         */
         document.querySelector("button").addEventListener("click", function () {
             let url1 = "https://images-assets.nasa.gov/image/PIA16239/PIA16239~orig.jpg-Ошибка";
-            let url2 = "https://images-assets.nasa.gov/image/PIA22312/PIA22312~orig.jpg";
+            let url2 = "https://images-assets.nasa.gov/image/PIA22312/PIA22312~orig-Ошибка.jpg";
             let url3 = "https://images-assets.nasa.gov/image/PIA04591/PIA04591~orig.jpg";
 
            
@@ -28,14 +28,28 @@
                 .then(image => {                    
                     document.body.append(image);    
                     return downloadImage(url2);     
-                })
+                }) 
+                .catch(mistake =>{                                  //добавил на каждый промис в цепочке обработчик исключений, с целью не прерывать загрузку картинок 
+                    console.log(mistake);                           //так картинку с ошибкой мы просто перешагнем, если же у нас ситуация, что нам нужно что б последующие дальнейшие 
+                    alert(mistake);                                 //промисы использовали данные полученные от предыдущих промисов то такая организация не подходит в таком
+                    return downloadImage(url2)                      //случае обработчик исключений нужно ставить в конце всей цепочки промисов, так мы прервем всю цепочку промисов 
+                })                                                  //потомучто дальнейшие действия с промисами не будут иметь смысла если в цепочке любой используемый промис пришел в состоянии реджектет
                 .then(image => {                    
                     document.body.append(image);
                     return downloadImage(url3);
                 })
+                .catch(mistake =>{
+                    console.log(mistake);
+                    alert(mistake);
+                    return downloadImage(url3)
+                })
                 .then(image => {
                     document.body.append(image);
-                });
+                })
+                .catch(mistake =>{
+                    console.log(mistake);
+                    alert(mistake);
+                })
 
         });
 
