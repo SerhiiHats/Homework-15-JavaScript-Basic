@@ -6,10 +6,25 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Task 04</title>
+    <style>
+        .hidden {
+            display: none;
+        }
+    </style>
 </head>
 
 <body>
     <button>Скачать</button>
+    <div>
+        <img id="spiner" class="hidden" src="img/Spinner-3.gif" alt="spiner">
+        <!-- <img id="spiner" class="hidden" src="img/Hourglass.gif" alt="spiner"> -->
+        <!-- <img id="spiner" class="hidden" src="img/Iphone-spinner-2.gif" alt="spiner"> -->
+        <!-- <img id="spiner" class="hidden" src="img/Walk.gif" alt="spiner"> -->
+        <!-- <img id="spiner" class="hidden" src="img/Fidget-spinner.gif" alt="spiner"> -->
+        <!-- <img id="spiner" class="hidden" src="img/In turn appearing.gif" alt="spiner"> -->
+    </div>
+
+
     <script>
         /*
         Задание:
@@ -24,6 +39,19 @@
                 setTimeout(() => resolve("downloaded data"), random);
             });
         }
+
+        document.querySelector("button").addEventListener("click", () => {
+            document.querySelector("#spiner").classList.remove("hidden");
+            Promise.all([download(), download(), download(), download(), download()])
+                .then(fulfilled => {
+                        console.log(fulfilled);
+                        console.log("Всей файлы скачаны");
+                        document.querySelector("button").insertAdjacentHTML("afterend",
+                            "<p>Все файлы скачаны</P>");
+                    },
+                    () => console.log("rejected"))
+                .finally(() => document.querySelector("#spiner").classList.add("hidden"));
+        });
     </script>
 </body>
 
